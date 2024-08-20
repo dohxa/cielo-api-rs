@@ -5,7 +5,7 @@ use serde::{Serialize, Deserialize};
 use log::info;
 
 // API KEY
-pub const API_KEY: &str = "51de9481-8972-41ec-b149-671ab815e51a";
+pub const API_KEY: &str = "";
 
 /*
     Base URL for making GET requests to the Cielo API
@@ -144,23 +144,6 @@ Result<String, Box<dyn Error + Send + Sync>> {
         construct_url_from_req_object(req)
         .await
         .expect("Error constructing GET request query values (URL)");
-    // to do: implement a url builder, currently this is breaking on None values
-    // if req.min_usd != None {
-    //     _q_url = format!("{BASE_URL}wallet={}&limit={}&chains={}&txTypes={}&minUSD={}",
-    //         req.wallet.unwrap(),
-    //         req.limit.unwrap(), 
-    //         chains_string,
-    //         tx_type_string,
-    //         req.min_usd.unwrap()
-    //     );
-    // } else {
-    //     _q_url = format!("{BASE_URL}wallet={}&limit={}&chains={}&txTypes={}",
-    //         req.wallet.unwrap(),
-    //         req.limit.unwrap(), 
-    //         chains_string,
-    //         tx_type_string,
-    //     );
-    // }
 
     let response = client
         .get(_q_url)
@@ -314,6 +297,7 @@ async fn construct_url_from_req_object(request: CieloRequest) -> Result<String, 
 mod tests {
     use super::*;
 
+    // eth test
     #[tokio::test]
     async fn it_gets_transactions() {
         let request = CieloRequest {
@@ -333,6 +317,7 @@ mod tests {
         submit_cielo_get_request(request).await.expect("Error getting transactions");
     }
 
+    // sol test
     #[tokio::test]
     async fn it_gets_sol_txs() {
         let request = CieloRequest {
